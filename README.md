@@ -4,11 +4,17 @@ A full-stack phonebook application developed as part of **Part 3 of the [Full St
 
 ### Live Application
 
-[Phonebook Backend API](https://phonebook-5fbx.onrender.com/api/persons)
+[Open the Phonebook Application](https://phonebook-5fbx.onrender.com/)
 
-The deployed backend was tested using a browser and Postman, as required by Exercise 3.10.
+[View the Phonebook API](https://phonebook-5fbx.onrender.com/api/persons)
 
 ### Project Structure
 
-- `frontend/` — React frontend adapted from Part 2.
-- `backend/` — Express backend developed in Part 3.
+- `frontend/` — React frontend.
+- `backend/` — Express backend and production frontend serving.
+
+### Development
+
+Run the frontend in development mode using `npm run dev` from the `frontend/` directory. The Vite development proxy forwards API requests to the backend.
+
+The production frontend is built and served by the Express backend.
