@@ -1,7 +1,11 @@
 # Phonebook Backend
 
-An Express backend developed as part of Part 3 of the Full Stack Open course.
+An Express backend developed as part of **Full Stack Open, Part 3, Exercise 3.10**.
 
-The application provides API endpoints for managing phonebook entries and serves the production frontend.
+The API provides endpoints for managing phonebook entries.
 
-**Live application:** [Phonebook App](DEPLOYED_APP_URL)
+### Deployment
+
+**Live API:** [https://phonebook-5fbx.onrender.com/api/persons](https://phonebook-5fbx.onrender.com/api/persons)
+
+The backend was deployed to Render and tested using a browser and Postman.
