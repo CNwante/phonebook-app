@@ -1,5 +1,14 @@
 # Phonebook Application
 
-A full-stack phonebook application built with React and Express as part of the [Full Stack Open](https://fullstackopen.com/en/part3/) course, Part 3.
+A full-stack phonebook application developed as part of **Part 3 of the [Full Stack Open](https://fullstackopen.com/en/) course**.
 
-This repository contains the frontend and backend applications, including the changes required to integrate and deploy the phonebook application.
+### Live Application
+
+[Phonebook Backend API](https://phonebook-5fbx.onrender.com/api/persons)
+
+The deployed backend was tested using a browser and Postman, as required by Exercise 3.10.
+
+### Project Structure
+
+- `frontend/` — React frontend adapted from Part 2.
+- `backend/` — Express backend developed in Part 3.
