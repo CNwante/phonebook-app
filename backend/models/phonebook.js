@@ -35,7 +35,7 @@ mongoose
 
 const phonebookSchema = new mongoose.Schema({
   name: String,
-  phone: String,
+  number: String,
 });
 
 module.exports = mongoose.model("Phonebook", phonebookSchema);
