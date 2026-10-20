@@ -49,38 +49,17 @@ let persons = [
   },
 ];
 
-const generateId = () => {
-  return Math.floor(Math.random() * 1000000000).toString();
-};
-
 app.post("/api/persons", (request, response) => {
   const contact = request.body;
 
-  if (!contact.name) {
-    return response.status(400).json({ error: "name must be provided" });
-  }
-
-  if (!contact.number) {
-    return response.status(400).json({ error: "number must be provided" });
-  }
-
-  const nameExists = persons.some(
-    (person) => person.name.toLowerCase() === contact.name.toLowerCase(),
-  );
-
-  if (nameExists) {
-    return response.status(400).json({ error: "name must be unique" });
-  }
-
-  const person = {
-    id: generateId(),
+  const person = new Phonebook({
     name: contact.name,
     number: contact.number,
-  };
+  });
 
-  persons = persons.concat(person);
-
-  response.json(person);
+  person.save().then((data) => {
+    response.json(data);
+  });
 });
 
 app.get("/api/persons", (request, response) => {
