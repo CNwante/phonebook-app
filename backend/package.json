@@ -4,8 +4,8 @@
   "description": "This phonebook app is for learning purpose as part of the exercises of the FullStackOpen course offered by the University of Helsinki.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch index.js",
+    "start": "node --env-file=.env index.js",
+    "dev": "node --env-file=.env --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

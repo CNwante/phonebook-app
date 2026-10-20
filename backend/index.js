@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const Phonebook = require("./models/phonebook");
 
 const app = express();
 
@@ -83,7 +84,9 @@ app.post("/api/persons", (request, response) => {
 });
 
 app.get("/api/persons", (request, response) => {
-  response.json(persons);
+  Phonebook.find({}).then((contacts) => {
+    response.json(contacts);
+  });
 });
 
 app.get("/info", (request, response) => {
