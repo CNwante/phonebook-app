@@ -26,28 +26,36 @@ app.use(
   }),
 );
 
-let persons = [
-  {
-    id: "1",
-    name: "Arto Hellas",
-    number: "040-123456",
-  },
-  {
-    id: "2",
-    name: "Ada Lovelace",
-    number: "39-44-5323523",
-  },
-  {
-    id: "3",
-    name: "Dan Abramov",
-    number: "12-43-234345",
-  },
-  {
-    id: "4",
-    name: "Mary Poppendieck",
-    number: "39-23-6423122",
-  },
-];
+app.get("/api/persons", (request, response) => {
+  Phonebook.find({}).then((contacts) => {
+    response.json(contacts);
+  });
+});
+
+app.get("/info", (request, response, next) => {
+  const currentDate = new Date().toString();
+
+  Phonebook.countDocuments({})
+    .then((totalContacts) => {
+      response.send(
+        `The Phonebook has info for ${totalContacts} people. <br><br>
+        ${currentDate}`,
+      );
+    })
+    .catch((error) => next(error));
+});
+
+app.get("/api/persons/:id", (request, response, next) => {
+  Phonebook.findById(request.params.id)
+    .then((contact) => {
+      if (contact) {
+        response.json(contact);
+      } else {
+        response.status(404).end();
+      }
+    })
+    .catch((error) => next(error));
+});
 
 app.post("/api/persons", (request, response) => {
   const contact = request.body;
@@ -62,39 +70,38 @@ app.post("/api/persons", (request, response) => {
   });
 });
 
-app.get("/api/persons", (request, response) => {
-  Phonebook.find({}).then((contacts) => {
-    response.json(contacts);
-  });
+app.put("/api/persons/:id", (request, response, next) => {
+  const { number } = request.body;
+
+  Phonebook.findById(request.params.id)
+    .then((contact) => {
+      if (!contact) {
+        return response.status(404).end();
+      }
+      contact.number = number;
+
+      return contact.save().then((savedContact) => response.json(savedContact));
+    })
+    .catch((error) => next(error));
 });
 
-app.get("/info", (request, response) => {
-  const totalContact = persons.length;
-  const currentDate = new Date().toString();
-  response.send(
-    `The Phonebook has info for ${totalContact} people. <br><br>
-    ${currentDate}`,
-  );
+app.delete("/api/persons/:id", (request, response, next) => {
+  Phonebook.findByIdAndDelete(request.params.id)
+    .then(() => response.status(204).end())
+    .catch((error) => next(error));
 });
 
-app.get("/api/persons/:id", (request, response) => {
-  const id = request.params.id;
-  const person = persons.find((p) => p.id === id);
-
-  if (person) {
-    response.json(person);
-  } else {
-    response.status(404).end();
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformated id" });
   }
-});
+  next(error);
+};
 
-app.delete("/api/persons/:id", (request, response) => {
-  Phonebook.findByIdAndDelete(request.params.id).then(() =>
-    response.status(204).end(),
-  );
-});
+app.use(errorHandler);
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
