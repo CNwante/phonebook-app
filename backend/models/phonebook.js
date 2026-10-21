@@ -22,7 +22,7 @@ const encodedPassword = encodeURIComponent(password);
 
 url = url.replace("DB_PASSWORD", encodedPassword);
 
-console.log("connecting to MongoDB...", url);
+console.log("connecting to MongoDB...");
 
 mongoose
   .connect(url, { family: 4 })
