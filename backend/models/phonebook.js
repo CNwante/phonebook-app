@@ -34,8 +34,23 @@ mongoose
   });
 
 const phonebookSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minLength: 3,
+    required: true,
+  },
+  number: {
+    type: String,
+    minLength: 8,
+    required: true,
+    validate: {
+      validator: function (v) {
+        return /^\d{2,3}-\d+$/.test(v);
+      },
+      message: (props) =>
+        `${props.value} is not a valid phone number format! Must be 2 or 3 digits followed by a hyphen and more digits (e.g., 09-123456 or 040-223344).`,
+    },
+  },
 });
 
 module.exports = mongoose.model("Phonebook", phonebookSchema);
