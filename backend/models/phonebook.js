@@ -1,37 +1,37 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 // Global plugin to automatically format all outputs to JSON cleanly
 mongoose.plugin((schema) => {
-  schema.set("toJSON", {
+  schema.set('toJSON', {
     transform: (document, returnedObject) => {
       if (returnedObject._id) {
-        returnedObject.id = returnedObject._id.toString();
-        delete returnedObject._id;
+        returnedObject.id = returnedObject._id.toString()
+        delete returnedObject._id
       }
-      delete returnedObject.__v;
+      delete returnedObject.__v
     },
-  });
-});
+  })
+})
 
-mongoose.set("strictQuery", false);
+mongoose.set('strictQuery', false)
 
-const password = process.env.DB_PASSWORD;
-let url = process.env.MONGO_URI;
+const password = process.env.DB_PASSWORD
+let url = process.env.MONGO_URI
 
-const encodedPassword = encodeURIComponent(password);
+const encodedPassword = encodeURIComponent(password)
 
-url = url.replace("DB_PASSWORD", encodedPassword);
+url = url.replace('DB_PASSWORD', encodedPassword)
 
-console.log("connecting to MongoDB...");
+console.log('connecting to MongoDB...')
 
 mongoose
   .connect(url, { family: 4 })
-  .then((result) => {
-    console.log("successfully connected to MongoDB");
+  .then(() => {
+    console.log('successfully connected to MongoDB')
   })
   .catch((error) => {
-    console.log("error connecting to MongoDB", error.message);
-  });
+    console.log('error connecting to MongoDB', error.message)
+  })
 
 const phonebookSchema = new mongoose.Schema({
   name: {
@@ -45,12 +45,12 @@ const phonebookSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function (v) {
-        return /^\d{2,3}-\d+$/.test(v);
+        return /^\d{2,3}-\d+$/.test(v)
       },
       message: (props) =>
         `${props.value} is not a valid phone number format! Must be 2 or 3 digits followed by a hyphen and more digits (e.g., 09-123456 or 040-223344).`,
     },
   },
-});
+})
 
-module.exports = mongoose.model("Phonebook", phonebookSchema);
+module.exports = mongoose.model('Phonebook', phonebookSchema)
